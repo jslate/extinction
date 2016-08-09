@@ -10,6 +10,7 @@ class Game extends Phaser.Game {
   constructor() {
     super(800, 600, Phaser.AUTO, 'game', null);
     this.state.add('Level1State', Level1State, false);
+    this.state.start('Level1State');
   }
 }
 

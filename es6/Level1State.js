@@ -1,5 +1,6 @@
 class Level1State extends Phaser.State {
   preload() {
+    this.load.image('background', '/images/background.jpg');
     // this.game.load.image('mushroom', '/images/mushroom2.png');
     // this.game.load.image('tiles', '/tilesets/TileA5.png');
     // this.game.load.tilemap('map', '/tilemaps/town_tile_layer_1.csv', null, Tilemap.CSV);
@@ -8,6 +9,8 @@ class Level1State extends Phaser.State {
 
 
   create() {
+    let background = new Phaser.Sprite(this, 0, 0, 'background');
+    this.game.stage.addChild(background);
     // this.map = new Tilemap(this.game, 'map', 32, 32)
     // this.map.addTilesetImage('tiles');
 
@@ -26,20 +29,20 @@ class Level1State extends Phaser.State {
   }
 
   update() {
-    // this.cursors = this.game.input.keyboard.createCursorKeys();
     // this.player.body.velocity.setTo(0, 0);
-    // if (this.cursors.right.isDown) {
-    //   this.player.body.velocity.x = 200;
-    // }
-    // if (this.cursors.left.isDown) {
-    //   this.player.body.velocity.x = -200;
-    // }
-    // if (this.cursors.up.isDown) {
-    //   this.player.body.velocity.y = -200;
-    // }
-    // if (this.cursors.down.isDown) {
-    //   this.player.body.velocity.y = 200;
-    // }
+    this.cursors = this.game.input.keyboard.createCursorKeys();
+    if (this.cursors.right.isDown) {
+      this.game.camera.x = 200;
+    }
+    if (this.cursors.left.isDown) {
+      this.game.camera.x = -200;
+    }
+    if (this.cursors.up.isDown) {
+      this.game.camera.y = -200;
+    }
+    if (this.cursors.down.isDown) {
+      this.game.camera.y = 200;
+    }
     // if (this.game.camera.) {}
     // console.log(this.game.camera.x - cameraPreviousX);
     // var cameraPreviousX = this.game.camera.x;
