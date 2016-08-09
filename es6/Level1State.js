@@ -1,11 +1,11 @@
+import Player from './Player'
+
 class Level1State extends Phaser.State {
   preload() {
-    this.load.image('background', '/images/background.jpg');
-    
-    // this.game.load.image('mushroom', '/images/mushroom2.png');
-    // this.game.load.image('tiles', '/tilesets/TileA5.png');
-    // this.game.load.tilemap('map', '/tilemaps/town_tile_layer_1.csv', null, Tilemap.CSV);
-    // this.game.load.sound();
+    this.load.image('background', '/images/background.png');
+    this.load.spritesheet('player', '/images/player.png', 120, 76);
+    this.load.image('tiles', '/images/platforms.png');
+    this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
   }
 
 
@@ -13,40 +13,32 @@ class Level1State extends Phaser.State {
     let background = new Phaser.Sprite(this, 0, 0, 'background');
     this.game.stage.addChild(background);
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.game.world.setBounds(0, 0, background.width, background.height);
-    
-    // this.map = new Tilemap(this.game, 'map', 32, 32)
-    // this.map.addTilesetImage('tiles');
-    // let layer = this.map.createLayer(0);
-    // layer.resizeWorld();
-    // this.game.world.setBounds(0, 0, 1344, 672);
-    // const center = { x: this.game.world.centerX, y: this.game.world.centerY }
-    // this.game.physics.startSystem(Phaser.Physics.Arcade);
-    // this.player = new Player(this.game, center.x, center.y, 'mushroom');
-    // this.game.physics.arcade.enable(this.player);
-    // this.player.body.collideWorldBounds = true;
-    // this.game.camera.follow(this.player);
+    this.game.world.setBounds(0, 0, 8192, 1178);
+    this.game.physics.startSystem(Phaser.Physics.Arcade);
+    this.game.physics.arcade.gravity.y = 100;
+    this.player = new Player(this.game, 0, 0, 'player');
+    this.player.animations.add('right', [0, 1, 2, 1], 5, true);
+    this.player.animations.add('left', [3, 4, 5, 4], 5, true);
+    this.game.physics.arcade.enable(this.player);
+    this.player.body.gravity.y = 800;
+    this.game.camera.follow(this.player);
   }
 
   update() {
-    
+    this.player.body.velocity.x = 0;
     if (this.cursors.right.isDown) {
-      this.game.camera.x += 200;
-    }
-    if (this.cursors.left.isDown) {
-      this.game.camera.x -= 200;
+      this.player.animations.play('right');
+      this.player.body.velocity.x = 200;
+    } else if (this.cursors.left.isDown) {
+      this.player.animations.play('left');
+      this.player.body.velocity.x = -200;
+    } else {
+      this.player.animations.stop();
     }
     if (this.cursors.up.isDown) {
-      this.game.camera.y -= 200;
+      this.player.body.velocity.y = -500;
     }
-    if (this.cursors.down.isDown) {
-      this.game.camera.y += 200;
-    }
-
-    // this.player.body.velocity.setTo(0, 0);
-    // if (this.game.camera.) {}
-    // console.log(this.game.camera.x - cameraPreviousX);
-    // var cameraPreviousX = this.game.camera.x;
+    this.game.debug.cameraInfo(this.game.camera, 32, 32);
   }
 }
 
