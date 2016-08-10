@@ -3,11 +3,12 @@ import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
   preload() {
-    this.load.image('background', '/images/background.png');
+    this.load.image('background', '/images/background.jpg');
     this.load.spritesheet('player', '/images/player.png', 120, 76);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.game.load.audio('unibabies', ['/audio/unibabies.m4a']);
   }
 
 
@@ -33,6 +34,9 @@ class Level1State extends Phaser.State {
 
     this.player.animations.add('right', [0, 1, 2, 1], 5, true);
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
+
+    let music = this.game.add.audio('unibabies');
+    music.play();
   }
 
   update() {
@@ -51,7 +55,6 @@ class Level1State extends Phaser.State {
       this.player.body.velocity.y = -800;
     }
     this.game.debug.cameraInfo(this.camera, 32, 32);
-    console.log(this.player.body.velocity.x);
   }
 }
 
