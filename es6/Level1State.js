@@ -8,6 +8,7 @@ class Level1State extends Phaser.State {
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.game.load.audio('unibabies', ['/audio/unibabies.m4a']);
   }
 
 
@@ -32,6 +33,9 @@ class Level1State extends Phaser.State {
 
     this.player.animations.add('right', [0, 1, 2, 1], 5, true);
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
+
+    let music = this.game.add.audio('unibabies');
+    music.play();
   }
 
   update() {
