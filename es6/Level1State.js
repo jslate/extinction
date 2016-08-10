@@ -4,7 +4,7 @@ import Tilemap from './Tilemap'
 class Level1State extends Phaser.State {
   preload() {
     this.load.image('background', '/images/background.jpg');
-    this.load.spritesheet('player', '/images/player.png', 120, 76);
+    this.load.spritesheet('player', '/images/player.png', 120, 50);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -36,6 +36,7 @@ class Level1State extends Phaser.State {
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
 
     let music = this.game.add.audio('unibabies');
+    music.loop = true;
     music.play();
   }
 
