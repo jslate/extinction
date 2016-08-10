@@ -7,38 +7,41 @@ class Level1State extends Phaser.State {
     this.load.spritesheet('player', '/images/player.png', 120, 76);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
+    this.cursors = this.game.input.keyboard.createCursorKeys();
   }
 
 
   create() {
-    let background = new Phaser.Sprite(this, 0, 0, 'background');
-    // this.game.stage.addChild(background);
-    // this.game.stage.backgroundColor = '#888888';
-    this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.tilemap = new Tilemap(this.game, 'tilemap', 64, 64);
-    this.tilemap.addTilesetImage('tiles');
-    let layer = this.tilemap.createLayer(0);
+    this.game.add.tileSprite(0, 0, 8192, 1178, 'background');
+    let tilemap = this.game.add.tilemap('tilemap', 64, 64);
+    tilemap.addTilesetImage('tiles');
+    let layer = tilemap.createLayer(0);
+    this.game.world.setBounds(0, 0, 8192, 1178);
     layer.resizeWorld();
-    // this.game.world.setBounds(0, 0, 8192, 1178);
+
     this.game.physics.startSystem(Phaser.Physics.Arcade);
-    this.game.physics.arcade.gravity.y = 100;
-    this.player = new Player(this.game, 0, 0, 'player');
-    this.player.animations.add('right', [0, 1, 2, 1], 5, true);
-    this.player.animations.add('left', [3, 4, 5, 4], 5, true);
+
+    this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 800;
     this.player.body.collideWorldBounds = true;
+
     this.game.camera.follow(this.player);
+
+    this.game.physics.arcade.gravity.y = 100;
+
+    this.player.animations.add('right', [0, 1, 2, 1], 5, true);
+    this.player.animations.add('left', [3, 4, 5, 4], 5, true);
   }
 
   update() {
     this.player.body.velocity.x = 0;
     if (this.cursors.right.isDown) {
       this.player.animations.play('right');
-      this.player.body.velocity.x = 200;
+      this.player.body.velocity.x = 500;
     } else if (this.cursors.left.isDown) {
       this.player.animations.play('left');
-      this.player.body.velocity.x = -200;
+      this.player.body.velocity.x = -500;
     } else {
       this.player.animations.stop();
     }
