@@ -23,14 +23,14 @@ class Level1State extends Phaser.State {
 
     this.game.physics.startSystem(Phaser.Physics.Arcade);
 
-    this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
+    this.player = this.game.add.sprite(100, 200, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 1500;
     this.player.body.collideWorldBounds = true;
 
     this.game.camera.follow(this.player);
 
-    this.game.physics.arcade.gravity.y = 100;
+    this.game.physics.arcade.gravity.y = 300;
 
     this.player.animations.add('right', [0, 1, 2, 1], 5, true);
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
@@ -53,9 +53,9 @@ class Level1State extends Phaser.State {
       this.player.animations.stop();
     }
     if (this.cursors.up.isDown && this.player.body.blocked.down) {
-      this.player.body.velocity.y = -800;
+      this.player.body.velocity.y = -1000;
     }
-    this.game.debug.cameraInfo(this.camera, 32, 32);
+    this.game.debug.spriteInfo(this.player, 32, 32);
   }
 }
 
