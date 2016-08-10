@@ -15,15 +15,16 @@ class Level1State extends Phaser.State {
     this.game.add.tileSprite(0, 0, 8192, 1178, 'background');
     let tilemap = this.game.add.tilemap('tilemap', 64, 64);
     tilemap.addTilesetImage('tiles');
-    let layer = tilemap.createLayer(0);
+    this.layer = tilemap.createLayer(0);
     this.game.world.setBounds(0, 0, 8192, 1178);
-    layer.resizeWorld();
+    this.layer.resizeWorld();
+    tilemap.setCollisionByExclusion([-1]);
 
     this.game.physics.startSystem(Phaser.Physics.Arcade);
 
     this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'player');
     this.game.physics.arcade.enable(this.player);
-    this.player.body.gravity.y = 800;
+    this.player.body.gravity.y = 1500;
     this.player.body.collideWorldBounds = true;
 
     this.game.camera.follow(this.player);
@@ -36,6 +37,7 @@ class Level1State extends Phaser.State {
 
   update() {
     this.player.body.velocity.x = 0;
+    this.game.physics.arcade.collide(this.player, this.layer);
     if (this.cursors.right.isDown) {
       this.player.animations.play('right');
       this.player.body.velocity.x = 500;
@@ -45,8 +47,8 @@ class Level1State extends Phaser.State {
     } else {
       this.player.animations.stop();
     }
-    if (this.cursors.up.isDown) {
-      this.player.body.velocity.y = -500;
+    if (this.cursors.up.isDown && this.player.body.blocked.down) {
+      this.player.body.velocity.y = -800;
     }
     this.game.debug.cameraInfo(this.camera, 32, 32);
     console.log(this.player.body.velocity.x);
