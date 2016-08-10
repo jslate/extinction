@@ -3,7 +3,7 @@ import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
   preload() {
-    this.load.image('background', '/images/background.png');
+    this.load.image('background', '/images/background.jpg');
     this.load.spritesheet('player', '/images/player.png', 120, 76);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
@@ -49,7 +49,6 @@ class Level1State extends Phaser.State {
       this.player.body.velocity.y = -500;
     }
     this.game.debug.cameraInfo(this.camera, 32, 32);
-    console.log(this.player.body.velocity.x);
   }
 }
 
