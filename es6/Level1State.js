@@ -1,4 +1,5 @@
 import Player from './Player'
+import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
   preload() {
@@ -11,9 +12,14 @@ class Level1State extends Phaser.State {
 
   create() {
     let background = new Phaser.Sprite(this, 0, 0, 'background');
-    this.game.stage.addChild(background);
+    // this.game.stage.addChild(background);
+    // this.game.stage.backgroundColor = '#888888';
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.game.world.setBounds(0, 0, 8192, 1178);
+    this.tilemap = new Tilemap(this.game, 'tilemap', 64, 64);
+    this.tilemap.addTilesetImage('tiles');
+    let layer = this.tilemap.createLayer(0);
+    layer.resizeWorld();
+    // this.game.world.setBounds(0, 0, 8192, 1178);
     this.game.physics.startSystem(Phaser.Physics.Arcade);
     this.game.physics.arcade.gravity.y = 100;
     this.player = new Player(this.game, 0, 0, 'player');
@@ -21,6 +27,7 @@ class Level1State extends Phaser.State {
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 800;
+    this.player.body.collideWorldBounds = true;
     this.game.camera.follow(this.player);
   }
 
@@ -38,7 +45,8 @@ class Level1State extends Phaser.State {
     if (this.cursors.up.isDown) {
       this.player.body.velocity.y = -500;
     }
-    this.game.debug.cameraInfo(this.game.camera, 32, 32);
+    this.game.debug.cameraInfo(this.camera, 32, 32);
+    console.log(this.player.body.velocity.x);
   }
 }
 
