@@ -11,6 +11,9 @@ class Level1State extends Phaser.State {
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.game.load.audio('unibabies', ['/audio/unibabies.ogg']);
+
+    this.playerRightBodyPosition = [68,46,47,1];
+    this.playerLeftBodyPosition = [68,46,10,1];
   }
 
 
@@ -28,6 +31,8 @@ class Level1State extends Phaser.State {
     this.player = this.game.add.sprite(100, 200, 'player');
     this.game.physics.arcade.enable(this.player);
     this.player.body.gravity.y = 1500;
+    this.player.body.setSize(...this.playerRightBodyPosition);
+    this.player.body.immovable = true;
     this.player.body.collideWorldBounds = true;
 
     this.game.camera.follow(this.player);
@@ -49,9 +54,11 @@ class Level1State extends Phaser.State {
     this.player.body.velocity.x = 0;
     this.game.physics.arcade.collide(this.player, this.layer);
     if (this.cursors.right.isDown) {
+      this.player.body.setSize(...this.playerRightBodyPosition);
       this.player.animations.play('right');
       this.player.body.velocity.x = 500;
     } else if (this.cursors.left.isDown) {
+      this.player.body.setSize(...this.playerLeftBodyPosition);
       this.player.animations.play('left');
       this.player.body.velocity.x = -500;
     } else {
