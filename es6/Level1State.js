@@ -42,6 +42,9 @@ class Level1State extends Phaser.State {
     this.player.animations.add('right', [0, 1, 2, 1], 5, true);
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
 
+    this.meteors = this.game.add.group();
+    var meteor = this.meteors.create(0, 0);
+    this.game.physics.arcade.enable(meteor);
     this.meteor = this.game.add.sprite(this.game, 0, 0, 'meteor');
     this.game.physics.arcade.enable(this.meteor);
 
