@@ -1,14 +1,16 @@
 import Player from './Player'
+import Meteor from './Meteor'
 import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
   preload() {
     this.load.image('background', '/images/background.jpg');
-    this.load.spritesheet('player', '/images/player.png', 120, 50);
+    this.load.spritesheet('player', '/images/player.png', 120, 49);
+    this.load.spritesheet('meteor', '/images/meteors.png', 200, 100);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.game.load.audio('unibabies', ['/audio/unibabies.m4a']);
+    this.game.load.audio('unibabies', ['/audio/unibabies.ogg']);
   }
 
 
@@ -35,6 +37,9 @@ class Level1State extends Phaser.State {
     this.player.animations.add('right', [0, 1, 2, 1], 5, true);
     this.player.animations.add('left', [3, 4, 5, 4], 5, true);
 
+    this.meteor = this.game.add.sprite(this.game, 0, 0, 'meteor');
+    this.game.physics.arcade.enable(this.meteor);
+
     let music = this.game.add.audio('unibabies');
     music.loop = true;
     music.play();
@@ -56,6 +61,7 @@ class Level1State extends Phaser.State {
       this.player.body.velocity.y = -1000;
     }
     this.game.debug.spriteInfo(this.player, 32, 32);
+    this.game.physics.arcade.velocityFromAngle(this.meteor.angle, 300, this.meteor.body.velocity);
   }
 }
 
