@@ -28,19 +28,9 @@ class Level1State extends Phaser.State {
 
     this.game.physics.startSystem(Phaser.Physics.Arcade);
 
-    this.player = this.game.add.sprite(100, 200, 'player');
-    this.game.physics.arcade.enable(this.player);
-    this.player.body.gravity.y = 1500;
-    this.player.body.setSize(...this.playerRightBodyPosition);
-    this.player.body.immovable = true;
-    this.player.body.collideWorldBounds = true;
-
-    this.game.camera.follow(this.player);
+    this.player = new Player(this.game);
 
     this.game.physics.arcade.gravity.y = 300;
-
-    this.player.animations.add('right', [0, 1, 2, 1], 5, true);
-    this.player.animations.add('left', [3, 4, 5, 4], 5, true);
 
     this.meteors = this.game.add.group();
     var meteor = this.meteors.create(0, 0);
@@ -54,23 +44,13 @@ class Level1State extends Phaser.State {
   }
 
   update() {
-    this.player.body.velocity.x = 0;
-    this.game.physics.arcade.collide(this.player, this.layer);
-    if (this.cursors.right.isDown) {
-      this.player.body.setSize(...this.playerRightBodyPosition);
-      this.player.animations.play('right');
-      this.player.body.velocity.x = 500;
-    } else if (this.cursors.left.isDown) {
-      this.player.body.setSize(...this.playerLeftBodyPosition);
-      this.player.animations.play('left');
-      this.player.body.velocity.x = -500;
-    } else {
-      this.player.animations.stop();
-    }
-    if (this.cursors.up.isDown && this.player.body.blocked.down) {
-      this.player.body.velocity.y = -1000;
-    }
-    this.game.debug.spriteInfo(this.player, 32, 32);
+    this.game.physics.arcade.collide(this.player.sprite, this.layer);
+    this.player.stopMoving();
+    if (this.cursors.right.isDown) { this.player.moveRight(); }
+    else if (this.cursors.left.isDown) { this.player.moveLeft(); }
+    else { this.player.stopAnimations(); }
+    if (this.cursors.up.isDown) { this.player.jump(); }
+    this.game.debug.spriteInfo(this.player.sprite, 32, 32);
     this.game.physics.arcade.velocityFromAngle(this.meteor.angle, 300, this.meteor.body.velocity);
   }
 }
