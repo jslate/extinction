@@ -5,6 +5,7 @@ import Tilemap from './Tilemap'
 class Level1State extends Phaser.State {
   preload() {
     this.cursors = this.game.input.keyboard.createCursorKeys();
+    this.game.load.audio('unibabies', ['/audio/unibabies.ogg']);
   }
 
   create() {

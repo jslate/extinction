@@ -17,7 +17,6 @@ class Game extends Phaser.Game {
     this.load.spritesheet('meteor', '/images/meteors.png', 200, 100);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
-    this.load.audio('unibabies', ['/audio/unibabies.ogg']);
   }
 
   create() {
