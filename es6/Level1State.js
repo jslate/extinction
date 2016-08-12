@@ -1,5 +1,5 @@
 import Player from './Player'
-import Meteor from './Meteor'
+// import Meteor from './Meteor'
 import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
@@ -32,11 +32,13 @@ class Level1State extends Phaser.State {
 
     this.game.physics.arcade.gravity.y = 300;
 
-    this.meteors = this.game.add.group();
-    var meteor = this.meteors.create(0, 0);
-    this.game.physics.arcade.enable(meteor);
-    this.meteor = this.game.add.sprite(this.game, 0, 0, 'meteor');
+    this.meteor = this.game.add.sprite(550, -100, 'meteor');
+    this.meteor.angle = 110;
     this.game.physics.arcade.enable(this.meteor);
+    this.meteor.body.allowGravity = false;
+    this.meteor.anchor.setTo(0.5, 0.5);
+    this.meteor.body.setSize(100, 100, -20, 50);
+
 
     let music = this.game.add.audio('unibabies');
     music.loop = true;
@@ -44,14 +46,28 @@ class Level1State extends Phaser.State {
   }
 
   update() {
+
+    this.game.physics.arcade.collide(this.player.sprite, this.meteor, () => {
+      alert('you died!');
+      this.meteor.position.y = -100;
+    });
+
+    this.game.physics.arcade.velocityFromAngle(this.meteor.angle, 300, this.meteor.body.velocity);
+
+    if (this.meteor.position.y > 2000) {
+      this.meteor.position.y = -100;
+      this.meteor.position.x = this.player.sprite.position.x + (Math.random() * 200 - 50);
+    }
+
     this.game.physics.arcade.collide(this.player.sprite, this.layer);
     this.player.stopMoving();
     if (this.cursors.right.isDown) { this.player.moveRight(); }
     else if (this.cursors.left.isDown) { this.player.moveLeft(); }
     else { this.player.stopAnimations(); }
     if (this.cursors.up.isDown) { this.player.jump(); }
-    this.game.debug.spriteInfo(this.player.sprite, 32, 32);
-    this.game.physics.arcade.velocityFromAngle(this.meteor.angle, 300, this.meteor.body.velocity);
+    // this.game.debug.spriteInfo(this.player.sprite, 32, 32);
+    // this.game.debug.body(this.meteor);
+    // this.game.debug.body(this.player.sprite);
   }
 }
 
