@@ -4,18 +4,9 @@ import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
   preload() {
-    this.load.image('background', '/images/background.jpg');
-    this.load.spritesheet('player', '/images/player.png', 120, 49);
-    this.load.spritesheet('meteor', '/images/meteors.png', 200, 100);
-    this.load.image('tiles', '/images/platforms.png');
-    this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.game.load.audio('unibabies', ['/audio/unibabies.ogg']);
-
-    this.playerRightBodyPosition = [68,46,47,1];
-    this.playerLeftBodyPosition = [68,46,10,1];
   }
-
 
   create() {
     this.game.add.tileSprite(0, 0, 8192, 1178, 'background');
