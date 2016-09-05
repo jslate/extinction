@@ -1,5 +1,6 @@
 import Player from './Player'
 // import Meteor from './Meteor'
+import Mammal from './Mammal'
 import Tilemap from './Tilemap'
 
 class Level1State extends Phaser.State {
@@ -7,6 +8,7 @@ class Level1State extends Phaser.State {
     this.load.image('background', '/images/background.jpg');
     this.load.spritesheet('player', '/images/player.png', 120, 49);
     this.load.spritesheet('meteor', '/images/meteors.png', 200, 100);
+    this.load.spritesheet('mammal', '/images/mouse.png', 150, 36);
     this.load.image('tiles', '/images/platforms.png');
     this.load.tilemap('tilemap', '/tilemaps/platforms.csv');
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -38,6 +40,14 @@ class Level1State extends Phaser.State {
     this.meteor.body.allowGravity = false;
     this.meteor.anchor.setTo(0.5, 0.5);
     this.meteor.body.setSize(100, 100, -20, 50);
+    this.meteor.animations.add('meteor1', [0, 1], 5, true);
+    this.meteor.animations.add('meteor2', [2, 3], 5, true);
+    this.meteor.animations.add('meteor3', [4, 5], 5, true);
+
+    this.mammals = this.game.add.group();
+    for (let i = 0; i < 10; i++) {
+      new Mammal(this.game, 200 * i, 50, this.mammals);
+    }
 
 
     let music = this.game.add.audio('unibabies');
@@ -47,6 +57,8 @@ class Level1State extends Phaser.State {
 
   update() {
 
+    this.meteor.animations.play('meteor1');
+
     this.game.physics.arcade.collide(this.player.sprite, this.meteor, () => {
       alert('you died!');
       this.meteor.position.y = -100;
@@ -54,8 +66,8 @@ class Level1State extends Phaser.State {
 
     this.game.physics.arcade.velocityFromAngle(this.meteor.angle, 300, this.meteor.body.velocity);
 
-    if (this.meteor.position.y > 2000) {
-      this.meteor.position.y = -100;
+    if (this.meteor.position.y > this.player.sprite.body.position.y + 500) {
+      this.meteor.position.y = this.player.sprite.body.position.y - 500;
       this.meteor.position.x = this.player.sprite.position.x + (Math.random() * 200 - 50);
     }
 

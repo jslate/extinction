@@ -11,7 +11,7 @@ class Player {
     this.sprite.body.gravity.y = 1500;
     this.sprite.body.setSize(...this.playerRightBodyPosition);
     this.sprite.body.immovable = true;
-    this.sprite.body.collideWorldBounds = true;
+    // this.sprite.body.collideWorldBounds = true;
 
     this.game.camera.follow(this.sprite);
 
